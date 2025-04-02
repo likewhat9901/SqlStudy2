@@ -123,6 +123,24 @@ from dual;
 퀴즈1] '2020-10-14 15:30:21'와 같은 형태의 문자열을 날짜로 인식할수 
     있도록 쿼리문을 작성하시오. 
 */ 
+--시간까지 있으므로 인식되지 않아 에러발생
+select to_date('2020-10-14 15:30:21') from dual;
+/*
+방법1 : 날짜형식의 문자열을 substr()로 날짜부분만 잘라낸 후 사용한다.
+    주어진 문자열은 년-월-일 형식이므로 별도의 서식 없이도 인식된다. */
+select
+    substr('2020-10-14 15:30:21',1,10),
+    to_date(substr('2020-10-14 15:30:21',1,10)) + 1
+from dual;
+/*
+방법2 : 날짜와 시간의 서식을 적용한다.
+특히 시간은 15시이므로 24시간제인 서식을 이용해야한다.
+*/
+select
+    to_date('2020-10-14 15:30:21', 'yyyy-mm-dd hh24:mi:ss')+1
+from dual;
+
+--내 답변---
 select
     to_date('2020-10-14 15:30:21', 'yyyy-mm-dd" "HH24:MI:SS')
 from dual;
@@ -131,13 +149,84 @@ select
     to_char(to_date('2020-10-14 15:30:21', 'yyyy-mm-dd" "HH24:MI:SS'),
     '"지금은 "YYYY"년 "MM"월 "DD"일, "HH24"시 "MI"분 "SS"초입니다"')
 from dual;
+-------------
 /*
 퀴즈2] 문자열 '2021년01월01일'은 어떤 요일인지 변환함수를 통해 출력해보시오.
     단 문자열은 임의로 변경할 수 없습니다. 
 */
+--날짜 형식을 알 수 없어 에러발생.
+select to_date('2021년01월01일') from dual;
 select
-    to_char(to_date('2021년01월01일', 'yyyy"년"mm"월"dd"일"'), 'day')
+    to_date('2021년01월01일', 'yyyy"년"mm"월"dd"일"') "1날짜인식",
+    to_char(to_date('2021년01월01일', 'yyyy"년"mm"월"dd"일"'), 'day') "2요일인식"
 from dual;
+
+
+
+--내 답변--
+select
+    to_char(to_date('2021년01월01일', 'yyyy"년"mm"월"dd"일"'), 'day"입니다"')
+from dual;
+----------------------
+
+/*
+nvl() : null값을 다른 데이터로 변경하는 함수
+    형식] nvl(컬럼명, 대체할 값) */
+/*
+아래와 같이 덧셈연산을 하면 영업사원이 아닌 경우에는 급여가 null로 계산된다.
+따라서 null값을 가진 컬럼은 별도의 처리가 필요하다. */
+select salary+commission_pct from employees;
+--null을 0으로 대체한 후 연산을 하면 정상적인 결과를 볼 수 있다.
+select salary+nvl(commission_pct,0) from employees;
+
+/*
+decode()
+: Java의 switch문과 비슷하게 특정값에 해당하는 출력문이 있는 경우 사용한다. 
+형식] decode(컬럼명,
+                값1, 결과1, 값2, 결과2, ... ,
+                기본값)
+※내부적인 코드값을 문자열로 변환하여 출력할때 많이 사용된다.
+*/
+/*
+시나리오] 사원테이블에서 각 부서번호에 해당하는 부서명을 출력하는 쿼리문을
+    decode()를 이용해서 작성하시오. 
+*/
+select 
+    first_name, department_id,
+    decode(department_id, /* 컬럼명 지정 */
+    30,	'Purchasing', /*조건start*/
+    50,	'Shipping',
+    60,	'IT',
+    90,	'Executive',
+    100, 'Finance', /*조건end*/
+    '부서명확인안됨') as "DEP_NAME" /*default값으로 조건에 적용되지 않는 나머지*/
+from employees;
+
+/*
+case() : Java의 if~else와 비슷한 역할을 하는 함수
+    형식] case
+            when 조건1 then 값1
+            when 조건2 then 값2
+            ...
+            else 기본값
+        end
+*/
+/*
+시나리오] 사원테이블에서 각 부서번호에 해당하는 부서명을 출력하는 쿼리문을
+    case()를 이용해서 작성하시오. 
+*/
+select 
+    first_name, department_id,
+    case
+        when department_id = 30 then 'Purchasing'
+        when department_id = 50 then 'Shipping'
+        when department_id = 60 then 'IT'
+        when department_id = 90 then 'Executive'
+        when department_id = 100 then 'Finance'
+        else '부서없음'
+    end
+    as DEP_NAME 
+from employees;
 
 
 
