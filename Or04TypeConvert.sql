@@ -228,6 +228,18 @@ select
     as DEP_NAME 
 from employees;
 
+select 
+    first_name, department_id,
+    case
+        when department_id = 30 then 'Purchasing'
+        when department_id = 50 then 'Shipping'
+        when department_id = 60 then 'IT'
+        when department_id = 90 then 'Executive'
+        when department_id = 100 then 'Finance'
+        else '부서없음'
+    end
+    as DEP_NAME 
+from employees where department_id in (30, 50, 60, 90);
 
 
 
