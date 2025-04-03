@@ -188,6 +188,7 @@ select first_name, salary, email, phone_number from employees
 */
 select employee_id, first_name, last_name, salary, department_id
     from employees order by department_id desc, salary;
+    --department_id는 내림차순, salary는 오름차순
 
 /*
 is null 혹은 is not null
