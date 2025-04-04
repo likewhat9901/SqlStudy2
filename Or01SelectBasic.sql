@@ -204,6 +204,73 @@ select * from employees where commission_pct is null
 select * from employees where salary >= 8000
     and commission_pct is not null;
 
+-------------------------과제--------------------------
+/* 1. 덧셈 연산자를 이용하여 모든 사원에 대해서 $300의 급여인상을 계산한후 이름,
+급여, 인상된 급여를 출력하시오. */
+select ename, sal, sal+300
+from emp;
+/* 2. 사원의 이름, 급여, 연봉을 수입이 많은것부터 작은순으로 출력하시오.
+연봉은 월급에 12를 곱한후 $100을 더해서 계산하시오. */
+select ename, sal, sal*12+100
+from emp
+order by sal desc;
+--3. 급여가  2000을 넘는 사원의 이름과 급여를 내림차순으로 정렬하여 출력하시오
+select ename, sal
+from emp
+where sal > 2000
+order by sal desc;
+--4. 사원번호가  7782인 사원의 이름과 부서번호를 출력하시오.
+select ename, deptno
+from emp
+where empno = 7782;
+--5. 급여가 2000에서 3000사이에 포함되지 않는 사원의 이름과 급여를 출력하시오.
+select ename, sal
+from emp
+where sal < 2000 or sal > 3000;
+
+select ename, sal
+from emp
+where sal not between 2000 and 3000 ;
+/*6. 입사일이 81년2월20일 부터 81년5월1일 사이인 사원의 이름, 담당업무,
+입사일을 출력하시오. */
+select ename, job, hiredate
+from emp
+where hiredate >= '81-02-20' and hiredate <= '81-05-01';
+
+select ename, job, hiredate
+from emp
+where hiredate between '81-02-20' and '81-05-01';
+/* 7. 부서번호가 20 및 30에 속한 사원의 이름과 부서번호를 출력하되
+이름을 기준(내림차순)으로 출력하시오 */
+select
+    ename, deptno
+from emp
+where deptno = 20
+    or deptno = 30
+order by ename desc;
+/* 8. 사원의 급여가 2000에서 3000사이에 포함되고 부서번호가 20 또는 30인
+사원의 이름, 급여와 부서번호를 출력하되 이름순(오름차순)으로 출력하시오 */
+select ename, sal, deptno
+from emp
+where deptno = 20
+    or deptno = 30
+    and sal between 2000 and 3000
+order by ename;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
