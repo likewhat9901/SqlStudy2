@@ -242,4 +242,59 @@ select
 from employees where department_id in (30, 50, 60, 90);
 
 
+------------------과제---------------------------
+--1. substr() 함수를 사용하여 사원들의 입사한 년도와 입사한 달만 출력하시오.
+select
+    ename, substr(hiredate, 1, 2) "입사년도",
+    substr(hiredate, 4, 2) "입사달"
+from emp;
+
+/*2. substr()함수를 사용하여 4월에 입사한 사원을 출력하시오.
+즉, 연도에 상관없이 4월에 입사한 모든사원이 출력되면 된다. */
+select
+    ename
+from emp
+where substr(hiredate, 4, 2) = 04;
+
+--3. mod() 함수를 사용하여 사원번호가 짝수인 사람만 출력하시오.
+select
+    ename, empno
+from emp
+where mod(empno,2) = 0;
+
+--4. 입사일을 연도는 2자리(YY), 월은 숫자(MON)로 표시하고 요일은 약어(DY)로 지정하여 출력하시오.
+select
+    to_char(hiredate, 'YY,MON,DY')
+from emp;
+
+/*5. 올해 며칠이 지났는지 출력하시오. 현재 날짜에서 올해 1월1일을 뺀 결과를 출력하고 
+TO_DATE()함수를 사용하여 데이터 형을 일치 시키시오. 단, 날짜의 형태는 ‘01-01-2020’ 포맷으로 사용한다.
+즉 sysdate - ‘01-01-2020’ 이와같은 연산이 가능해야한다. */
+select
+    trunc(sysdate-to_date('01-01-2020', 'dd-mm-yyyy')) "지나간 날짜"
+from dual;
+
+--6. 사원들의 메니져 사번을 출력하되 메니져가 없는 사원에 대해서는 NULL값 대신 0으로 출력하시오.
+select
+    ename, nvl(mgr, 0)
+from emp;
+
+/*7. decode 함수로 직급에 따라 급여를 인상하여 출력하시오. 
+‘CLERK’는 200, ‘SALESMAN’은 180, ‘MANAGER’은 150, ‘PRESIDENT’는 100을 인상하여 출력하시오. */
+select
+    ename,
+    sal,
+    decode(job,
+        'CLERK', sal+200,
+        'SALESMAN', sal+280,
+        'MANAGER', sal+150,
+        'PRESIDENT', sal+100) "인상된 봉급"
+from emp;
+
+
+
+
+
+
+
 
