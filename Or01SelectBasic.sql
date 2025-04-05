@@ -204,6 +204,7 @@ select * from employees where commission_pct is null
 select * from employees where salary >= 8000
     and commission_pct is not null;
 
+
 -------------------------과제--------------------------
 /* 1. 덧셈 연산자를 이용하여 모든 사원에 대해서 $300의 급여인상을 계산한후 이름,
 급여, 인상된 급여를 출력하시오. */
@@ -257,17 +258,48 @@ where deptno = 20
     and sal between 2000 and 3000
 order by ename;
 
+--9. 1981년도에 입사한 사원의 이름과 입사일을 출력하시오. (like 연산자와 와일드카드 사용)
+select
+    ename, hiredate
+from emp
+where hiredate like '81%';
 
+--10. 관리자가 없는 사원의 이름과 담당업무를 출력하시오. 
+select
+    ename, job
+from emp
+where mgr is null;
 
+/* 11. 커미션을 받을수 있는 자격이 되는 사원의 이름, 급여,
+커미션을 출력하되 급여 및 커미션을 기준으로 내림차순으로 정렬하여 출력하시오. */
+select ename, sal, comm, sal+comm
+from emp
+where comm is not null
+order by sal+comm desc;
 
+--12. 이름의 세번째 문자가 R인 사원의 이름을 표시하시오.
+select ename
+from emp
+where ename like '__R%';
 
+--13. 이름에 A와 E를 모두 포함하고 있는 사원의 이름을 표시하시오.
+select ename
+from emp
+where ename like '%A%' and ename like '%E%';
 
+/* 14. 담당업무가 사무원(CLERK) 또는 영업사원(SALESMAN)이면서 
+급여가 $1600, $950, $1300 이 아닌 사원의 이름, 담당업무, 급여를 출력하시오. */
+select 
+    ename, job, sal
+from emp
+where sal not in (1600, 950, 1300)
+    and (job = 'CLERK' or job = 'SALESMAN');
 
-
-
-
-
-
+--15. 커미션이 $500 이상인 사원의 이름과 급여 및 커미션을 출력하시오. 
+select
+    ename, sal, comm
+from emp
+where comm >= 500;
 
 
 

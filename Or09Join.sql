@@ -435,14 +435,116 @@ where
     and city = 'South San Francisco'
     and state_province = 'California';
 
+--------------과제----------------
+/*1. inner join 방식중 오라클방식을 사용하여 first_name 이 Janette 인 사원의 부서ID와 부서명을 출력하시오.
+출력목록] 부서ID, 부서명*/
+select
+    first_name, E.department_id, department_name
+from employees E, departments D
+where E.department_id = D.department_id
+    and first_name = 'Janette';
 
+/*2. inner join 방식중 SQL표준 방식을 사용하여 사원이름과 함께 그 사원이 소속된 부서명과 도시명을 출력하시오
+출력목록] 사원이름, 부서명, 도시명*/
+select
+    first_name, last_name, department_name, city
+from employees E
+inner join departments D
+    on E.department_id = D.department_id
+inner join locations L
+    on D.location_id = L.location_id;
 
+/* 3. 사원의 이름(FIRST_NAME)에 'A'가 포함된 모든사원의 이름과 부서명을 출력하시오.
+출력목록] 사원이름, 부서명 */
+select
+    first_name, last_name, department_name
+from employees E, departments D
+where first_name like '%A%'
+    and E.department_id = D.department_id;
 
+/* 4. “city : Toronto / state_province : Ontario” 에서 근무하는
+모든 사원의 이름, 업무명, 부서번호 및 부서명을 출력하시오.
+출력목록] 사원이름, 업무명, 부서ID, 부서명 */
+select
+    first_name, last_name, job_title,
+    department_id, department_name
+from employees
+    inner join jobs using(job_id)
+    inner join departments using(department_id)
+    inner join locations using(location_id)
+where city = 'Toronto'
+    and state_province = 'Ontario';
 
+/* 5. Equi Join을 사용하여 커미션(COMMISSION_PCT)을 받는 모든 사원의 이름, 부서명, 도시명을 출력하시오. 
+출력목록] 사원이름, 부서ID, 부서명, 도시명 */
+select
+    first_name, department_name, city, commission_pct
+from employees E,
+    departments D, locations L
+where E.department_id = D.department_id
+    and D.location_id = L.location_id
+    and commission_pct is not null;
 
+select
+    first_name, department_name, city, commission_pct
+from employees E
+    join departments D
+        on E.department_id = D.department_id
+    join locations L
+        on D.location_id = L.location_id
+where commission_pct is not null;
 
+/* 6. inner join과 using 연산자를 사용하여 50번 부서(DEPARTMENT_ID)에 속하는 
+모든 담당업무(JOB_ID)의 고유목록(distinct)을 부서의 도시명(CITY)을 포함하여 출력하시오.
+출력목록] 담당업무ID, 부서ID, 부서명, 도시명 */
+select distinct
+    job_id, department_id, department_name, city
+from employees
+    inner join departments using(department_id)
+    inner join locations using(location_id)
+where department_id = 50
+;
 
+/*7. 담당업무ID가 FI_ACCOUNT인 사원들의 메니져는 누구인지 출력하시오. 단, 레코드가 중복된다면 중복을 제거하시오. 
+출력목록] 이름, 성, 담당업무ID, 급여 */
+select distinct
+    Em.first_name, Em.last_name, Em.job_id, Em.salary
+from employees Ec, employees Em
+where Ec.manager_id = Em.employee_id
+    and Ec.job_id = 'FI_ACCOUNT'
+;
+select distinct
+    m.first_name, m.last_name, m.job_id, m.salary
+from employees e
+join employees m
+    on e.manager_id = m.employee_id
+where e.job_id = 'FI_ACCOUNT';
 
+/* 8. 각 부서의 메니져가 누구인지 출력하시오. 출력결과는 부서번호를 오름차순 정렬하시오.
+출력목록] 부서번호, 부서명, 이름, 성, 급여, 담당업무ID
+※ departments 테이블에 각 부서의 메니져가 있습니다. */
+select
+    d.department_id, department_name, first_name, last_name,
+    salary, job_id
+from employees e
+join departments d
+    on e.employee_id = d.manager_id
+order by d.department_id
+;
+
+/* 9. 담당업무명이 Sales Manager인 사원들의 입사년도와 입사년도(hire_date)별 평균 급여를 출력하시오.
+출력시 년도를 기준으로 오름차순 정렬하시오. 
+출력항목 : 입사년도, 평균급여 */
+select
+    to_char(hire_date, 'YYYY'), avg(salary)
+from employees e
+join jobs j
+    on e.job_id = j.job_id
+where job_title = 'Sales Manager'
+group by to_char(hire_date, 'YYYY')
+order by to_char(hire_date, 'YYYY')
+;
+--group by 와 select 표현식이 같아야 함.
 
 
 
