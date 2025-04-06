@@ -302,4 +302,7 @@ from emp
 where comm >= 500;
 
 
+select * from tab;
+
+
 
