@@ -285,11 +285,7 @@ group by department_id;
 
 
 
-
-
-
-
-
+select * from tab;
 
 
 
