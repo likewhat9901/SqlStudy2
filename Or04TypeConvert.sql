@@ -271,7 +271,7 @@ from emp;
 TO_DATE()함수를 사용하여 데이터 형을 일치 시키시오. 단, 날짜의 형태는 ‘01-01-2020’ 포맷으로 사용한다.
 즉 sysdate - ‘01-01-2020’ 이와같은 연산이 가능해야한다. */
 select
-    trunc(sysdate-to_date('01-01-2020', 'dd-mm-yyyy')) "지나간 날짜"
+    trunc(sysdate - to_date('01-01-2025', 'dd-mm-yyyy')) "지나간 날짜"
 from dual;
 
 --6. 사원들의 메니져 사번을 출력하되 메니져가 없는 사원에 대해서는 NULL값 대신 0으로 출력하시오.
@@ -282,14 +282,15 @@ from emp;
 /*7. decode 함수로 직급에 따라 급여를 인상하여 출력하시오. 
 ‘CLERK’는 200, ‘SALESMAN’은 180, ‘MANAGER’은 150, ‘PRESIDENT’는 100을 인상하여 출력하시오. */
 select
-    ename,
-    sal,
+    ename, sal, job,
     decode(job,
         'CLERK', sal+200,
         'SALESMAN', sal+280,
         'MANAGER', sal+150,
-        'PRESIDENT', sal+100) "인상된 봉급"
+        'PRESIDENT', sal+100,
+        sal) "인상된 봉급"
 from emp;
+
 
 
 
