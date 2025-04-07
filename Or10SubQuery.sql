@@ -204,7 +204,7 @@ select first_name, rownum from
 select * from
     (select tb.*, rownum from
         (select * from employees order by first_name asc) tb)
-where rownum >= 1 and rownum <= 10;
+where rownum >= 1 and rownum <= 20;
 --rownum에 별칭을 부여해서 조건으로 사용한다.
 select * from
     (select tb.*, rownum rNum from
@@ -213,3 +213,12 @@ select * from
 --where rNum >= 11 and rNum <= 20;
 where rNum between 21 and 30;
 --구간을 정할 때는 between을 사용해도 된다.
+
+/* rownum을 2 이상의 숫자부터 조건으로 주려면 별칭으로 미리 데이터를 만들어야 한다.
+Oracle은 rownum을 필터링할 때 조건에 맞지 않으면 바로 그만두기 때문이다. */
+
+
+
+
+
+

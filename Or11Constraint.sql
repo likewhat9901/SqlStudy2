@@ -94,7 +94,8 @@ create table tb_primary3 (
 desc tb_primary3;
 /* 이미 생성된 테이블에 제약조건을 부여할때는 alter를 사용하면 된다.
 제약명은 필요에 따라 추가/생략이 가능하다. */
-alter table tb_primary3 add constraint tb_primary3_pk
+alter table tb_primary3
+    add constraint tb_primary3_pk
     primary key (user_name);
 --데이터사전에서 제약조건 확인하기
 select * from user_constraints;
@@ -152,7 +153,7 @@ insert into tb_unique values (6, '장비', '010-5555-5555', '촉');
 */
 
 /*
-Foreigh key : 외래키, 참조키
+Foreign key : 외래키, 참조키
 -외래키는 참조무결성을 유지하기 위한 제약조건
 -테이블간에 외래키가 설정되어 있다면 자식테이블에 참조값이 존재할 경우
     부모테이블의 레코드는 삭제할 수 없다.
@@ -258,8 +259,9 @@ create table tb_primary4 (
 create table tb_foreign4 (
     f_idx number(10) primary key,
     f_name varchar2(30),
-    user_id varchar2(30) constraint tb_foreign4_fk
-        references tb_primary4 (user_id)
+    user_id varchar2(30)
+        constraint tb_foreign4_fk
+            references tb_primary4 (user_id)
             on delete cascade
 );
 --레코드 입력. 항상 부모테이블부터 입력해야 한다.
