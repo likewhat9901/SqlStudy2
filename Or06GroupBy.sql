@@ -266,7 +266,7 @@ group by job_id;
 --4. 급여가 10000달러 이상인 직원들의 담당업무별 합계인원수를 출력하시오.
 select
     job_id,
-    count(job_id)
+    count(job_id) "직원수"
 from employees
 where salary >= 10000
 group by job_id;
@@ -282,7 +282,8 @@ select
     department_id, count(department_id), avg(department_id)
 from employees
 group by department_id;
-
+/* 이와 같이 복잡한 계산식이 포함된 컬럼을 기준으로 정렬할 때는 별칭을 사용하는
+것이 좋다. */
 
 
 select * from tab;

@@ -443,6 +443,8 @@ select
 from employees E, departments D
 where E.department_id = D.department_id
     and first_name = 'Janette';
+    /* 오라클 방식은 표준방식에서 inner join 대신 콤마를 이용해서
+    테이블을 조인하고 on절 대신 where절에 조인될 컬럼을 명시한다. */
 
 /*2. inner join 방식중 SQL표준 방식을 사용하여 사원이름과 함께 그 사원이 소속된 부서명과 도시명을 출력하시오
 출력목록] 사원이름, 부서명, 도시명*/
