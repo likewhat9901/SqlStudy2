@@ -217,6 +217,64 @@ where rNum between 21 and 30;
 /* rownum을 2 이상의 숫자부터 조건으로 주려면 별칭으로 미리 데이터를 만들어야 한다.
 Oracle은 rownum을 필터링할 때 조건에 맞지 않으면 바로 그만두기 때문이다. */
 
+----------------------------3주차 과제--------------------
+--01.사원번호가 7782인 사원과 담당 업무가 같은 사원을 표시(사원이름과 담당 업무)하시오.
+select
+    job
+from emp
+where empno = 7782;
+---------------------------
+select
+    *
+from emp
+where job = (
+    select
+        job
+    from emp
+    where empno = 7782
+);
+
+--02.사원번호가 7499인 사원보다 급여가 많은 사원을 표시(사원이름과 담당 업무)하시오.
+select 
+    sal
+from emp
+where empno = 7499;
+-------------------
+select
+    *
+from emp
+where sal > (
+    select 
+        sal
+    from emp
+    where empno = 7499
+);
+--03.최소 급여를 받는 사원의 이름, 담당 업무 및 급여를 표시하시오(그룹함수 사용).
+select
+    *
+from emp
+where  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
