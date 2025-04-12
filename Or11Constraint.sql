@@ -407,23 +407,76 @@ select * from tb_check3;
 --limit_num을 생략하면 null값으로 들어감. 제약조건 적용X
 insert into tb_check3 (sale_count) values (11);
 
+------------------과제--------------
+/*
+1. emp 테이블의 구조를 복사하여 pr_emp_const 테이블을 만드시오. 
+복사된 테이블의 사원번호 칼럼에 pr_emp_pk 라는 이름으로 primary key 제약조건을 
+지정하시오.
+*/
+create table pr_emp_const
+as
+select * from emp
+where 1=1;
+--------------
+desc pr_emp_const;
+select * from pr_emp_const;
+----------------------
+alter table pr_emp_const
+add constraint pr_emp_pk primary key (empno);
+select * from user_cons_columns;
+/*
+2. dept 테이블의 구조를 복사해서 pr_dept_const 테이블을 만드시오. 
+부서번호에 pr_dept_pk 라는 제약조건명으로 primary_key를 생성하시오.
+*/
+create table pr_dept_const
+as
+select *
+from dept where 1=1;
+select * from pr_dept_const;
+-----------------
+alter table pr_dept_const
+add constraint pr_dept_pk primary key (deptno);
+/*
+3. pr_dept_const 테이블에 존재하지 않는 부서의 사원이 배정되지 않도록 
+외래키 제약조건을 지정하되 제약조건 이름은 pr_emp_dept_fk 로 지정하시오.
+*/
+alter table pr_emp_const
+add constraint pr_emp_dept_fk foreign key (deptno)
+references pr_dept_const(deptno);
+insert into pr_emp_const (empno, deptno) values (9999, 40);
+insert into pr_emp_const (empno, deptno) values (8888, 50);
+select * from pr_emp_const;
+/*
+4. pr_emp_const 테이블의 comm 칼럼에 0보다 큰 값만을 입력할수 있도록
+제약조건을 지정하시오. 제약조건명은 지정하지 않아도 된다.
+*/
+alter table pr_emp_const
+add constraint chk_comm check (comm >= 0 or comm is null);
+select * from user_cons_columns;
+select * from user_constraints;
+/*
+5. 위 3번에서는 두 테이블간에 외래키가 설정되어서 pr_dept_const 테이블에서 
+레코드를 삭제할 수 없었다. 이 경우 부모 레코드를 삭제할 경우 자식까지 같이 삭제될수
+있도록 외래키를 지정하시오.
+*/
+alter table pr_emp_const
+drop constraint pr_emp_dept_fk;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+alter table pr_emp_const
+add constraint pr_emp_dept_fk foreign key (deptno)
+references pr_dept_const(deptno)
+    on delete cascade;
+select * from pr_dept_const;
+select * from pr_emp_const;
+insert into pr_dept_const values (50, 'test', 'seoul'); 
+insert into pr_emp_const (empno, deptno) values (9999, 50);
+delete from pr_dept_const
+where deptno = 50;
+SELECT * FROM user_cons_columns
+WHERE table_name = 'PR_EMP_CONST';
+SELECT *
+FROM user_constraints
+WHERE table_name = 'PR_EMP_CONST';
 
 
 

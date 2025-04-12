@@ -505,6 +505,82 @@ select * from trigger_dept_original;
 백업테이블에는 1개의 레코드만 삽입된다. */
 select * from trigger_dept_backup;
 
+-----------------------과제------------------------
+--테이블생성
+create table sh_product_code (
+    p_code number(10),
+    category_name varchar2(50)
+);
+create table sh_goods (
+    g_idx number(10),
+    goods_name varchar2(100),
+    goods_price number(10),
+    regidate date,
+    p_code number(10)
+);
+create table sh_goods_log (
+    log_idx number(10),
+    goods_name varchar2(100),
+    goods_idx number(10),
+    p_action date
+);
+-----------------
+--시퀀스 생성
+create sequence seq_total_idx
+start with 1
+increment by 1
+minvalue 1
+nomaxvalue
+nocycle
+nocache
+;
+---------------------
+--더미데이터 입력
+/*
+sh_product_code  테이블
+앞에서 생성한 시퀀스를 이용해서 3~5개 정도의 상품코드 레코드를 입력한다.
+예)  가전, 도서, 의류 등
+*/
+select * from sh_product_code;
+insert into sh_product_code values (seq_total_idx.nextval, '가전');
+insert into sh_product_code values (seq_total_idx.nextval, '도서');
+insert into sh_product_code values (seq_total_idx.nextval, '의류');
+select * from sh_product_code;
+-------------------
+/*
+sh_goods 테이블
+앞에서 생성한 시퀀스를 이용해서 5~10개 정도의 상품 레코드를 입력한다. 
+예) 냉장고, 세탁기 / 사피엔스, 총균쇠 / 롱패딩, 레깅스, 청바지 등
+가격과 등록일은 본인이 적당히 정하면 된다. 
+단, 상품은 상품코드와 일치해야 한다. 
+예) 가전 - 냉장고 / 도서 - 총균쇠
+*/
+select seq_total_idx.nextval from dual;
+drop sequence seq_total_idx;
+insert into sh_goods values (
+    seq_total_idx.nextval, '냉장고', 
+    100, sysdate, 1);
+insert into sh_goods values (
+    seq_total_idx.nextval, '총균쇠', 
+    5, sysdate, 2);
+insert into sh_goods values (
+    seq_total_idx.nextval, '세탁기', 
+    50, sysdate, 1);
+insert into sh_goods values (
+    seq_total_idx.nextval, '사피엔스', 
+    3, sysdate, 2);
+insert into sh_goods values (
+    seq_total_idx.nextval, '롱패딩', 
+    10, sysdate, 3);
+select * from sh_goods;
+
+
+
+
+
+
+
+
 
 
 
