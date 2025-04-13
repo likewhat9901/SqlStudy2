@@ -522,7 +522,7 @@ create table sh_goods_log (
     log_idx number(10),
     goods_name varchar2(100),
     goods_idx number(10),
-    p_action date
+    p_action varchar2(100)
 );
 -----------------
 --시퀀스 생성
@@ -557,6 +557,7 @@ sh_goods 테이블
 */
 select seq_total_idx.nextval from dual;
 drop sequence seq_total_idx;
+select seq_total_idx.currval from dual;
 insert into sh_goods values (
     seq_total_idx.nextval, '냉장고', 
     100, sysdate, 1);
@@ -574,12 +575,61 @@ insert into sh_goods values (
     10, sysdate, 3);
 select * from sh_goods;
 
+commit;
 
+delete from sh_goods where g_idx is null;
+---------------------------
+/*
+▶ 상품수정 및 삭제
+프로시저 작성후 CallableStatement객체를 사용하여 호출하도록 한다. 
+상품수정
+프로시저명 : ShopUpdateGoods
+In파라미터 : 상품명, 가격, 제품코드, 수정할 상품의 일련번호
+Out파라미터 : 레코드 수정 결과(1 혹은 0)
+호출할 Java클래스 : UpdateShop
+*/
+set serveroutput on;
 
-
-
-
-
+create or replace procedure ShopUpdateGoods (
+    pname in varchar2,
+    price in number,
+    pcode in varchar2,
+    no in number,
+    result out number 
+)
+is
+begin
+    update sh_goods
+    set goods_name = pname, goods_price = price, p_code = pcode
+    where g_idx = no;
+    
+    if SQL%rowcount > 0 then
+        result := SQL%rowcount;
+        commit;
+    else
+        result := 0;
+    end if;
+end;
+/
+commit;
+------------------------------
+create or replace procedure ShopDeleteGoods (
+    no in number,
+    result out number
+)
+is
+begin
+    delete from sh_goods where g_idx = no;
+    
+    if sql%rowcount > 0 then
+        result := 1;
+    else
+        result := 0;
+    end if;
+end;
+/
+commit;
+    
 
 
 
