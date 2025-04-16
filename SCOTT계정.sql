@@ -1,5 +1,5 @@
 alter session set "_ORACLE_SCRIPT"=true;
 
-create user scott identified by TIGER;
+create user banking identified by 1234;
 
-grant connect, resource, unlimited tablespace to scott;
+grant connect, resource, unlimited tablespace to banking;
