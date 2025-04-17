@@ -41,7 +41,6 @@ begin
         
         p_result := '삭제가 완료되었습니다.';
     end if;
-    
 EXCEPTION
     when others then
         p_result := '오류 발생: ' || SQLERRM;
