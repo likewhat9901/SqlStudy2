@@ -1,7 +1,14 @@
+alter session set "_ORACLE_SCRIPT"=true;
+
+create user banking identified by 1234;
+
+grant connect, resource, unlimited tablespace to banking;
+
+---------------------------------------------------------
 create table banking
 (
     serial_num varchar2(10) not null,
-    acc_id  number primary key,
+    acc_id  varchar2(100) primary key,
     name varchar2(100) not null,
     balance number not null,
     interest_rate number not null
@@ -14,13 +21,6 @@ create sequence seq_banking_idx
     nomaxvalue
     nocycle
     nocache;
-
-commit;
-    
-select * from banking;
-
-delete from banking;
-
 
 --삭제 프로시저
 create or replace procedure DeleteAccount
@@ -47,6 +47,16 @@ EXCEPTION
 end;
 /
 
+
+
+
+
+
+select * from banking;
+delete from banking;
+
+drop table banking;
+drop sequence seq_banking_idx;
 commit;
     
     
